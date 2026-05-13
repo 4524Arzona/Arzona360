@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARZONA PREMIUM - Login Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        :root {
+            --navy-deep: #0A1A35;
+            --navy-dark: #0B1C3D;
+            --navy-medium: #0F2A5A;
+            --navy-light: #1A3A6E;
+            --gold-primary: #F5C242;
+            --gold-bright: #FFD966;
+            --gold-dark: #D4A017;
+            --gold-glow: rgba(245, 194, 66, 0.4);
+            --gold-soft: rgba(245, 194, 66, 0.15);
+            --text-white: #FFFFFF;
+            --text-light: #E5E7EB;
+            --text-muted: #9CA3AF;
+            --success: #10B981;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(245, 194, 66, 0.15);
+            --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, var(--navy-deep) 0%, var(--navy-dark) 40%, var(--navy-medium) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background effects */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(245, 194, 66, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(245, 194, 66, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(245, 194, 66, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 20%, rgba(245, 194, 66, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: glowPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, var(--gold-soft), transparent);
+            filter: blur(40px);
+            z-index: 0;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(245, 194, 66, 0.1), transparent 70%);
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            bottom: -200px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(245, 194, 66, 0.08), transparent 70%);
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(245, 194, 66, 0.05), transparent 70%);
+            animation: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, 2%) scale(1.05); }
+            50% { transform: translate(-2%, 1%) scale(0.95); }
+            75% { transform: translate(1%, -2%) scale(1.02); }
+        }
+
+        .container {
+            width: 1400px;
+            max-width: 100%;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow), 0 0 0 1px rgba(245, 194, 66, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Left Panel - Premium Branding */
+        .brand-panel {
+            flex: 1.2;
+            background: linear-gradient(145deg, rgba(10, 26, 53, 0.95), rgba(11, 28, 61, 0.98));
+            backdrop-filter: blur(20px);
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-right: 2px solid var(--gold-primary);
+        }
+
+        .brand-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--gold-primary), transparent);
+        }
+
+        .logo-container {
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 25px 40px;
+            border: 3px solid var(--gold-primary);
+            box-shadow: 0 0 50px var(--gold-glow), inset 0 0 30px rgba(245, 194, 66, 0.2);
+            margin-bottom: 20px;
+            transition: all 0.5s ease;
+            animation: logoGlow 3s infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            from { box-shadow: 0 0 30px var(--gold-glow), inset 0 0 20px rgba(245, 194, 66, 0.2); }
+            to { box-shadow: 0 0 60px var(--gold-glow), inset 0 0 40px rgba(245, 194, 66, 0.3); }
+        }
+
+        .logo-wrapper img {
+            max-width: 280px;
+            max-height: 120px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px var(--gold-primary));
+        }
+
+        .logo-wrapper span {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold-primary), #FFFFFF, var(--gold-bright));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .store-tagline {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+            padding: 15px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .premium-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: var(--navy-dark);
+            padding: 8px 25px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px var(--gold-glow);
+            margin-top: 10px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-primary);
+            box-shadow: 0 10px 30px var(--gold-glow);
+            background: rgba(245, 194, 66, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--gold-primary);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            color: var(--text-white);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .help-section {
+            margin-top: auto;
+            background: linear-gradient(145deg, rgba(245, 194, 66, 0.05), rgba(15, 42, 90, 0.3));
+            border-radius: 30px;
+            padding: 25px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .help-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: var(--gold-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .help-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .help-question {
+            color: var(--text-white);
+            cursor: pointer;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .help-question:hover {
+            border-color: var(--gold-primary);
+            background: rgba(245, 194, 66, 0.05);
+        }
+
+        .help-question i {
+            color: var(--gold-primary);
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .help-question.active i {
+            transform: rotate(90deg);
+        }
+
+        .help-answer {
+            padding: 0 15px 15px 40px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .help-answer.show {
+            display: block;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .contact-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .contact-btn.call {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: var(--navy-dark);
+        }
+
+        .contact-btn.call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px var(--gold-glow);
+        }
+
+        .contact-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .contact-btn.whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Right Panel - Login Forms */
+        .login-panel {
+            flex: 0.9;
+            background: rgba(11, 28, 61, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 50px 45px;
+            position: relative;
+        }
+
+        .login-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(245, 194, 66, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+
+        .login-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            border-radius: 60px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 16px 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn i {
+            font-size: 1.2rem;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: var(--navy-dark);
+            box-shadow: 0 5px 20px var(--gold-glow);
+        }
+
+        .tab-btn:not(.active):hover {
+            color: var(--gold-primary);
+            background: rgba(245, 194, 66, 0.1);
+        }
+
+        .form-container {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-bright));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .form-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-label i {
+            color: var(--gold-primary);
+            margin-right: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(15, 42, 90, 0.4);
+            border: 2px solid var(--glass-border);
+            border-radius: 24px;
+            font-size: 1rem;
+            color: var(--text-white);
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 4px var(--gold-glow), 0 0 20px rgba(245, 194, 66, 0.3);
+            background: rgba(15, 42, 90, 0.6);
+        }
+
+        .input-wrapper input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .toggle-password:hover {
+            opacity: 1;
+        }
+
+        .forgot-link {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .forgot-link a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .forgot-link a:hover {
+            color: var(--gold-primary);
+            text-shadow: 0 0 8px var(--gold-glow);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: var(--navy-dark);
+            border: none;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0 20px;
+            box-shadow: 0 10px 30px var(--gold-glow);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px var(--gold-glow);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn.loading {
+            opacity: 0.8;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .store-field {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .store-field .input-wrapper {
+            flex: 1;
+        }
+
+        .store-info-icon {
+            color: var(--gold-primary);
+            font-size: 1.3rem;
+            cursor: help;
+            position: relative;
+        }
+
+        .store-info-icon:hover::after {
+            content: 'Enter the store code provided by your manager';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy-dark);
+            color: var(--text-light);
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            border: 1px solid var(--gold-primary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .message {
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: none;
+            font-weight: 500;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            color: #FCA5A5;
+            display: block;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            color: #6EE7B7;
+            display: block;
+        }
+
+        .register-link {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .register-link a {
+            color: var(--gold-primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+
+        .register-link a:hover {
+            text-shadow: 0 0 8px var(--gold-glow);
+        }
+
+        .demo-credentials {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(245, 194, 66, 0.05);
+            border: 2px dashed var(--glass-border);
+            border-radius: 24px;
+        }
+
+        .demo-credentials p {
+            color: var(--text-muted);
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .demo-credentials strong {
+            color: var(--gold-primary);
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(11, 28, 61, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--navy-dark);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                border-radius: 32px;
+            }
+
+            .brand-panel {
+                border-right: none;
+                border-bottom: 2px solid var(--gold-primary);
+                padding: 40px 30px;
+            }
+
+            .brand-panel::after {
+                top: auto;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .logo-wrapper img {
+                max-width: 220px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+            }
+
+            .login-panel {
+                padding: 30px 20px;
+            }
+
+            .logo-wrapper span {
+                font-size: 2.5rem;
+            }
+        }
+
+        .security-notice {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--gold-primary);
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+        .security-notice i {
+            color: var(--gold-primary);
+            margin-right: 8px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Floating orbs for ambiance -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <!-- Left Panel - Branding -->
+        <div class="brand-panel">
+            <div class="logo-container">
+                <div class="logo-wrapper" id="logoWrapper">
+                    <img id="storeLogo" src="" alt="ARZONA" style="display: none;">
+                    <span id="storeName">ARZONA</span>
+                </div>
+                <div class="store-tagline">
+                    <i class="fas fa-crown" style="color: var(--gold-primary); margin-right: 8px;"></i>
+                    PREMIUM SHOPPING EXPERIENCE
+                    <i class="fas fa-crown" style="color: var(--gold-primary); margin-left: 8px;"></i>
+                </div>
+                <div class="premium-badge">
+                    <i class="fas fa-star"></i> EST. 2024 <i class="fas fa-star"></i>
+                </div>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
+                    <div class="feature-title">Express Delivery</div>
+                    <div class="feature-desc">Free delivery on orders over GHS 100</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="feature-title">Secure Payments</div>
+                    <div class="feature-desc">100% encrypted transactions</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-store-alt"></i></div>
+                    <div class="feature-title">Arzona Go</div>
+                    <div class="feature-desc">In-store pickup at multiple locations</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <div class="feature-title">24/7 Support</div>
+                    <div class="feature-desc">Premium customer service</div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <div class="help-header">
+                    <i class="fas fa-circle-question"></i>
+                    <span>Quick Help Center</span>
+                </div>
+                
+                <div class="help-list">
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>How do I get my User ID?</span>
+                        </div>
+                        <div class="help-answer">
+                            After registration, you'll receive your User ID and PIN via email. Check your inbox (including spam folder).
+                        </div>
+                    </div>
+                    
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Store Manager Login?</span>
+                        </div>
+                        <div class="help-answer">
+                            Store managers: Use your email, store code, and password provided during store setup. Default password: manager123
+                        </div>
+                    </div>
+                    
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Admin Access?</span>
+                        </div>
+                        <div class="help-answer">
+                            Admin credentials are securely managed. Contact system administrator for access.
+                        </div>
+                    </div>
+                    
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Forgot PIN?</span>
+                        </div>
+                        <div class="help-answer">
+                            Click "Forgot PIN?" and enter your registered email. We'll send reset instructions immediately.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-buttons">
+                    <a href="tel:+233594434576" class="contact-btn call">
+                        <i class="fas fa-phone-alt"></i>
+                        Call Support
+                    </a>
+                    <a href="https://wa.me/233594434576?text=Hello%20I%20need%20assistance%20with%20Arzona" 
+                       class="contact-btn whatsapp" 
+                       target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Login Forms -->
+        <div class="login-panel">
+            <div class="login-tabs">
+                <button class="tab-btn active" onclick="switchTab('customer')">
+                    <i class="fas fa-user"></i>
+                    <span>Customer</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('manager')">
+                    <i class="fas fa-store-alt"></i>
+                    <span>Store Manager</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('admin')">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Admin</span>
+                </button>
+            </div>
+
+            <!-- Message Container -->
+            <div id="message" class="message"></div>
+
+            <!-- Customer Login Form -->
+            <div id="customer-form" class="form-container active">
+                <div class="form-title">Welcome Back!</div>
+                <div class="form-subtitle">Sign in to your customer account</div>
+                
+                <form onsubmit="handleCustomerLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-id-card"></i>
+                            User ID
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="userId" placeholder="Enter your User ID (e.g., ARZ123456)" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock"></i>
+                            PIN
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="password" id="userPin" placeholder="Enter your 8-character PIN" required>
+                            <span class="toggle-password" onclick="togglePassword('userPin')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="forgot-link">
+                            <a href="#" onclick="showForgotPassword()">
+                                <i class="fas fa-key"></i> Forgot PIN?
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="customer-login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+                </form>
+
+                <div class="register-link">
+                    New customer?
+                    <a href="#" onclick="showRegister()">Create account</a>
+                </div>
+
+                <div class="demo-credentials">
+                    <p><i class="fas fa-info-circle" style="color: var(--gold-primary);"></i> <strong>Demo Credentials:</strong></p>
+                    <p>Register to receive your unique User ID and PIN via email</p>
+                </div>
+            </div>
+
+            <!-- Store Manager Login Form -->
+            <div id="manager-form" class="form-container">
+                <div class="form-title">Store Manager Portal</div>
+                <div class="form-subtitle">Access your store dashboard</div>
+                
+                <form onsubmit="handleManagerLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="email" id="managerEmail" placeholder="manager@store.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-qrcode"></i>
+                            Store Code
+                        </label>
+                        <div class="store-field">
+                            <div class="input-wrapper">
+                                <input type="text" id="storeCode" placeholder="e.g., ACCRA-MALL" required>
+                            </div>
+                            <div class="store-info-icon" title="Store code provided by admin">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Password
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="password" id="managerPassword" placeholder="Enter your password" required>
+                            <span class="toggle-password" onclick="togglePassword('managerPassword')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="manager-login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Access Store Dashboard
+                    </button>
+                </form>
+
+                <div class="demo-credentials">
+                    <p><i class="fas fa-info-circle" style="color: var(--gold-primary);"></i> <strong>Demo Store:</strong></p>
+                    <p>Email: manager@store.com • Store Code: ACCRA-MALL</p>
+                    <p>Password: manager123 (Default for all stores)</p>
+                </div>
+            </div>
+
+            <!-- Admin Login Form -->
+            <div id="admin-form" class="form-container">
+                <div class="form-title">Administrator Access</div>
+                <div class="form-subtitle">Secure admin portal</div>
+                
+                <form onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user-tie"></i>
+                            Admin ID
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="adminId" placeholder="Enter Admin ID" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Admin PIN
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="password" id="adminPin" placeholder="Enter Admin PIN" required>
+                            <span class="toggle-password" onclick="togglePassword('adminPin')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="admin-login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Access Admin Panel
+                    </button>
+                </form>
+
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i> Admin credentials are not displayed for security reasons. Please contact the system administrator if you need access.
+                </div>
+            </div>
+
+            <!-- Registration Form (Hidden by default) -->
+            <div id="register-form" class="form-container">
+                <div class="form-title">Create Account</div>
+                <div class="form-subtitle">Join ARZONA premium shopping</div>
+                
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user"></i>
+                            Full Name
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="regName" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="email" id="regEmail" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-phone"></i>
+                            Mobile Number
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="tel" id="regMobile" placeholder="024XXXXXXX" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="register-btn">
+                        <i class="fas fa-user-plus"></i>
+                        Register
+                    </button>
+                </form>
+
+                <div class="register-link">
+                    Already have an account?
+                    <a href="#" onclick="showCustomerLogin()">Sign in</a>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgot-form" class="form-container">
+                <div class="form-title">Reset PIN</div>
+                <div class="form-subtitle">We'll send reset instructions to your email</div>
+                
+                <form onsubmit="handleForgotPassword(event)">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            Registered Email
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="email" id="forgotEmail" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="forgot-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Instructions
+                    </button>
+                </form>
+
+                <div class="register-link">
+                    Remember your PIN?
+                    <a href="#" onclick="showCustomerLogin()">Back to login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = 'http://localhost:5000/api';
+        const WHATSAPP_NUMBER = '233594434576';
+
+        // Load settings for logo and store name
+        async function loadSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/settings`);
+                if (response.ok) {
+                    const settings = await response.json();
+                    
+                    if (settings.logoUrl) {
+                        document.getElementById('storeLogo').src = settings.logoUrl;
+                        document.getElementById('storeLogo').style.display = 'inline';
+                        document.getElementById('storeName').style.display = 'none';
+                    }
+                    if (settings.storeName) {
+                        document.getElementById('storeName').textContent = settings.storeName;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
+        }
+
+        // Toggle help answers
+        function toggleHelp(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            answer.classList.toggle('show');
+            element.classList.toggle('active');
+            
+            if (answer.classList.contains('show')) {
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Switch between tabs
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const forms = document.querySelectorAll('.form-container');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'customer') {
+                tabs[0].classList.add('active');
+                document.getElementById('customer-form').classList.add('active');
+            } else if (tab === 'manager') {
+                tabs[1].classList.add('active');
+                document.getElementById('manager-form').classList.add('active');
+            } else {
+                tabs[2].classList.add('active');
+                document.getElementById('admin-form').classList.add('active');
+            }
+            
+            hideMessage();
+        }
+
+        // Show registration form
+        function showRegister() {
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            document.getElementById('register-form').classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            hideMessage();
+        }
+
+        // Show customer login
+        function showCustomerLogin() {
+            switchTab('customer');
+        }
+
+        // Show forgot password
+        function showForgotPassword() {
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            document.getElementById('forgot-form').classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            hideMessage();
+        }
+
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = event.currentTarget.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Show message
+        function showMessage(text, type = 'error') {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            
+            // Auto hide after 5 seconds
+            setTimeout(hideMessage, 5000);
+        }
+
+        // Hide message
+        function hideMessage() {
+            const messageEl = document.getElementById('message');
+            messageEl.className = 'message';
+            messageEl.textContent = '';
+        }
+
+        // Set loading state
+        function setLoading(buttonId, isLoading) {
+            const btn = document.getElementById(buttonId);
+            if (isLoading) {
+                btn.classList.add('loading');
+                btn.innerHTML = '<span class="loading-spinner"></span> Please wait...';
+                btn.disabled = true;
+            } else {
+                btn.classList.remove('loading');
+                if (buttonId === 'customer-login-btn') {
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+                } else if (buttonId === 'manager-login-btn') {
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Access Store Dashboard';
+                } else if (buttonId === 'admin-login-btn') {
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Access Admin Panel';
+                } else if (buttonId === 'register-btn') {
+                    btn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+                } else if (buttonId === 'forgot-btn') {
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Instructions';
+                }
+                btn.disabled = false;
+            }
+        }
+
+        // Validation helpers
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function isValidMobile(mobile) {
+            return /^[0-9]{10}$/.test(mobile.replace(/\D/g, ''));
+        }
+
+        // Handle Customer Login
+        async function handleCustomerLogin(event) {
+            event.preventDefault();
+            hideMessage();
+            
+            const userId = document.getElementById('userId').value.trim();
+            const userPin = document.getElementById('userPin').value.trim();
+            
+            if (!userId || !userPin) {
+                showMessage('Please enter both User ID and PIN');
+                return;
+            }
+            
+            setLoading('customer-login-btn', true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId, userPin, mode: 'normal' })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showMessage('Login successful! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = '/customer-dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage(data.message || 'Invalid credentials');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.');
+            } finally {
+                setLoading('customer-login-btn', false);
+            }
+        }
+
+        // Handle Manager Login
+        async function handleManagerLogin(event) {
+            event.preventDefault();
+            hideMessage();
+            
+            const email = document.getElementById('managerEmail').value.trim();
+            const storeCode = document.getElementById('storeCode').value.trim();
+            const password = document.getElementById('managerPassword').value.trim();
+            
+            if (!email || !storeCode || !password) {
+                showMessage('Please fill in all fields');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('Please enter a valid email address');
+                return;
+            }
+            
+            setLoading('manager-login-btn', true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/manager/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, storeCode })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    localStorage.setItem('managerToken', data.token);
+                    localStorage.setItem('manager', JSON.stringify(data.manager));
+                    
+                    showMessage('Welcome, Store Manager! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = '/manager-dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage(data.message || 'Invalid credentials');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.');
+            } finally {
+                setLoading('manager-login-btn', false);
+            }
+        }
+
+        // Handle Admin Login
+        async function handleAdminLogin(event) {
+            event.preventDefault();
+            hideMessage();
+            
+            const id = document.getElementById('adminId').value.trim();
+            const pin = document.getElementById('adminPin').value.trim();
+            
+            if (!id || !pin) {
+                showMessage('Please enter both Admin ID and PIN');
+                return;
+            }
+            
+            setLoading('admin-login-btn', true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, pin })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    localStorage.setItem('adminToken', data.token);
+                    
+                    showMessage('Admin access granted! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = '/admin-dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage(data.message || 'Invalid admin credentials');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.');
+            } finally {
+                setLoading('admin-login-btn', false);
+            }
+        }
+
+        // Handle Registration
+        async function handleRegister(event) {
+            event.preventDefault();
+            hideMessage();
+            
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const mobile = document.getElementById('regMobile').value.trim();
+            
+            if (!name || !email || !mobile) {
+                showMessage('Please fill in all fields');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('Please enter a valid email address');
+                return;
+            }
+            
+            if (!isValidMobile(mobile)) {
+                showMessage('Please enter a valid 10-digit mobile number');
+                return;
+            }
+            
+            setLoading('register-btn', true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, mobile })
+                });
+                
+                const data = await response.json();
+                
+                if (response.status === 201) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    showMessage('Registration successful! Check your email for credentials.', 'success');
+                    
+                    // Show credentials in a beautiful alert
+                    setTimeout(() => {
+                        alert(`🎉 Welcome to ARZONA!\n\nYour User ID: ${data.user.userId}\nPIN has been sent to: ${email}\n\nPlease save these credentials securely.`);
+                        window.location.href = '/customer-dashboard.html';
+                    }, 2000);
+                } else {
+                    showMessage(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.');
+            } finally {
+                setLoading('register-btn', false);
+            }
+        }
+
+        // Handle Forgot Password
+        async function handleForgotPassword(event) {
+            event.preventDefault();
+            hideMessage();
+            
+            const email = document.getElementById('forgotEmail').value.trim();
+            
+            if (!email || !isValidEmail(email)) {
+                showMessage('Please enter a valid email address');
+                return;
+            }
+            
+            setLoading('forgot-btn', true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/forgot-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('✅ Reset instructions sent to your email!', 'success');
+                    
+                    setTimeout(() => {
+                        showCustomerLogin();
+                        document.getElementById('forgotEmail').value = '';
+                    }, 3000);
+                } else {
+                    showMessage(data.message || 'Failed to send reset email');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.');
+            } finally {
+                setLoading('forgot-btn', false);
+            }
+        }
+
+        // Check URL parameters
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            
+            if (tab === 'register') {
+                showRegister();
+            } else if (tab === 'forgot') {
+                showForgotPassword();
+            } else if (tab === 'manager') {
+                switchTab('manager');
+            } else if (tab === 'admin') {
+                switchTab('admin');
+            }
+        }
+
+        // Check if already logged in
+        function checkAuthStatus() {
+            const token = localStorage.getItem('token');
+            const managerToken = localStorage.getItem('managerToken');
+            const adminToken = localStorage.getItem('adminToken');
+            
+            // Uncomment to auto-redirect if already logged in
+            // if (token) window.location.href = '/customer-dashboard.html';
+            // if (managerToken) window.location.href = '/manager-dashboard.html';
+            // if (adminToken) window.location.href = '/admin-dashboard.html';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            checkAuthStatus();
+            checkUrlParams();
+            
+            // Auto-hide messages on input focus
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('focus', hideMessage);
+            });
+        });
+    </script>
+</body>
+</html>
